@@ -5,6 +5,8 @@ import {BlogPost} from "../model/blogpost.model";
 import { Blog } from "../model/blog.model";
 import { UserPermission } from "../model/userpermissions.model";
 import { Op } from "sequelize";
+import {ImageFolder} from "../model/imagefolder.model";
+import {baseImageDirectory, createStorageFolder} from "../services/images/imageStorage";
 
 const blogRouter = Router();
 
@@ -40,10 +42,19 @@ blogRouter.get("/", async (req: AuthRequest, res) => {
 blogRouter.post("/", async (req: AuthRequest, res) => {
     if(await checkAdminPermissions(req.tokenBody.email)){
         const creationDate = new Date().toISOString()
-        req.body.createAt = creationDate;
+        req.body.createdAt = creationDate;
+        req.body.author = req.tokenBody.email;
         const newBlog = await Blog.create(req.body);
+        // create an image folder for the blog
+        const newFolder = await ImageFolder.create({
+            name: newBlog.title+"_imagefolder",
+            owner: req.tokenBody.email,
+            path: await createStorageFolder(newBlog.title+"_imagefolder"),
+            blog: newBlog.id
+        });
         return res.send({
-            blog: newBlog
+            blog: newBlog,
+            imageFolder: newFolder
         })
     } else{
         return res.status(401).send("User does not have permissions to create blogs");
@@ -77,6 +88,7 @@ blogRouter.post("/:blogId", async (req: AuthRequest, res: Response) => {
     }
     // Attempt to create a blog post
     const newBlogPost = await BlogPost.create(req.body);
+
     return res.send({
         blogPost: newBlogPost
     });

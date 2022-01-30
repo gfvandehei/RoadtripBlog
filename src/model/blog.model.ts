@@ -7,6 +7,7 @@ import {
     ModelDefined, Optional, Sequelize
 } from "sequelize";
 import {BlogPost} from "./blogpost.model";
+import { ImageFolder } from "./imagefolder.model";
 
 interface BlogAttributes{
     id: number;
@@ -30,9 +31,11 @@ export class Blog extends Model<BlogAttributes, BlogCreationAttributes> implemen
     declare createBlogPost: HasManyCreateAssociationMixin<BlogPost>;
 
     declare readonly blogPosts?: BlogPost[];
+    declare readonly imageFolder?: ImageFolder;
 
     declare static associations: {
         blogPosts: Association<Blog, BlogPost>,
+        imageFolder: Association<Blog, ImageFolder>
     }
 }
 
@@ -65,4 +68,10 @@ Blog.hasMany(BlogPost, {
     sourceKey: "id",
     foreignKey: "blog",
     as: "blogPosts"
+});
+
+Blog.hasOne(ImageFolder, {
+    sourceKey: "id",
+    foreignKey: "blog",
+    as: "imageFolder"
 });

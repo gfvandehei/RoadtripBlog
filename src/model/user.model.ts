@@ -8,6 +8,7 @@ import {
 } from "sequelize";
 import {BlogPost} from "./blogpost.model";
 import { UserPermission } from "./userpermissions.model";
+import { Image } from "./image.model";
 
 interface UserAttributes{
     lastName: string,
@@ -38,11 +39,12 @@ export class User extends Model<UserAttributes> implements UserAttributes{
 
     declare readonly blogPosts?: BlogPost[];
     declare readonly userPermissions?: UserPermission[];
-
+    declare readonly images?: Image[];
 
     declare static associations: {
         blogPosts: Association<User, BlogPost>,
-        userPermissions: Association<User, UserPermission>
+        userPermissions: Association<User, UserPermission>,
+        images: Association<User, Image>,
     }
 }
 
@@ -84,6 +86,12 @@ User.hasMany(UserPermission, {
     foreignKey: "user",
     as: "userPermissions"
 });
+
+User.hasMany(Image, {
+    sourceKey: "email",
+    foreignKey: "uploader",
+    as: "images"
+})
 
 export async function createUser(firstName: string, lastName: string, email: string, password: string): Promise<User>{
     // check if a user with email already exists

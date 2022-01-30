@@ -5,8 +5,12 @@ export async function checkBlogReadPermissions(userEmail: string, blogId: number
     const userPermissionsForBlog = UserPermission.findOne({
         where: {
             user: userEmail,
-            table: "blog",
-            object: blogId.toString(),
+            table: {
+                [Op.in]: ["blog", "*"]
+            },
+            object: {
+                [Op.in]: [blogId.toString(), "*"]
+            },
             permission: {
                 [Op.in]: ["read", "*"]
             }
@@ -19,8 +23,12 @@ export async function checkBlogWritePermissions(userEmail: string, blogId: numbe
     const userPermissionsForBlog = UserPermission.findOne({
         where: {
             user: userEmail,
-            table: "blog",
-            object: blogId.toString(),
+            table: {
+                [Op.in]: ["blog", "*"]
+            },
+            object: {
+                [Op.in]: [blogId.toString(), "*"]
+            },
             permission: {
                 [Op.in]: ["write", "*"]
             }
