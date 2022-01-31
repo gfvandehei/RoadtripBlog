@@ -1,0 +1,8 @@
+<div class="login-div">
+    <label for="username">Username</label>
+    <input id="username" type="text" [formControl]="usernameControl">
+    <label for="password">Password</label>
+    <input id="password" type="password" [formControl]="passwordControl">
+    <button mat-button (click)="logIn()">Log In</button>
+    <button mat-button (click)="register()">Register</button>
+</div>

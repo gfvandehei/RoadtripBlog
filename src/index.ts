@@ -8,9 +8,12 @@ import {sequelize} from "./services/database";
 import {userAuthMiddleware} from "./model/user.model";
 import ImageRouter from "./routes/images.router";
 import * as logging from "./services/logging/middleware";
-const app = express();
-const port = 3000;
+import * as cors from "cors";
 
+const app = express();
+const port = 5690;
+
+app.use(cors.default());
 app.use(bodyParser.json({type: "application/json"}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logging.requestLoggingMiddleware);

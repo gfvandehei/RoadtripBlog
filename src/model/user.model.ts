@@ -10,12 +10,12 @@ import {BlogPost} from "./blogpost.model";
 import { UserPermission } from "./userpermissions.model";
 import { Image } from "./image.model";
 
-interface UserAttributes{
+export interface UserAttributes{
     lastName: string,
     firstName: string,
     email: string,
-    password: string,
-    salt: string
+    password?: string,
+    salt?: string
 }
 
 export class User extends Model<UserAttributes> implements UserAttributes{
