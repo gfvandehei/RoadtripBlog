@@ -25,7 +25,7 @@ router.post("/register", async (req, res) => {
         const token = AuthFunctions.generateWebToken(email);
         return res.status(200).send({
             user: UserModel.stripUser(createdUser),
-            token: token
+            token
         });
     } catch(err){
         console.log(err);

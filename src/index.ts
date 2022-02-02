@@ -9,6 +9,8 @@ import {userAuthMiddleware} from "./model/user.model";
 import ImageRouter from "./routes/images.router";
 import * as logging from "./services/logging/middleware";
 import * as cors from "cors";
+import { allColors } from "winston/lib/winston/config";
+import APIRouter from "./routes/api.router";
 
 const app = express();
 const port = 5690;
@@ -17,9 +19,12 @@ app.use(cors.default());
 app.use(bodyParser.json({type: "application/json"}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logging.requestLoggingMiddleware);
-app.use("/auth", AuthRouter);
-app.use("/blogs", userAuthMiddleware, BlogsRouter);
-app.use("/images", userAuthMiddleware, ImageRouter);
+
+
+app.all("/api", APIRouter);
+app.all("*", (req, res) => {
+    res.sendFile("../ui/blog-ui/dist/blog-ui/index.html");
+});
 
 app.all("/", (req, res) => {
     res.send("Hello World");
