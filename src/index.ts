@@ -15,6 +15,8 @@ import APIRouter from "./routes/api.router";
 const app = express();
 const port = 5690;
 
+app.disable("x-powered-by");
+
 app.use(cors.default());
 app.use(bodyParser.json({type: "application/json"}));
 app.use(bodyParser.urlencoded({ extended: true }));
