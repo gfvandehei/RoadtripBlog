@@ -41,4 +41,13 @@ export class LoginComponent implements OnInit {
   register(){
     this.router.navigateByUrl("/register");
   }
+
+  continueAsGuest(){
+    this.authService.loginGuest().then(result => {
+      this.router.navigateByUrl("/");
+    }, (err) => {
+      console.log(err);
+      alert(err);
+    })
+  }
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
 import { JwtService } from '../auth/jwt.service';
+import {UserService} from "./user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private jwt: JwtService
+    private jwt: JwtService,
+    private user: UserService
   ) { }
 
   async login(email: string, password: string): Promise<string>{
@@ -30,4 +32,7 @@ export class AuthService {
     return result;
   }
 
+  async loginGuest(){
+    return await this.login("guest", "");
+  }
 }

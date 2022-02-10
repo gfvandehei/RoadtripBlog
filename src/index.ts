@@ -23,7 +23,7 @@ app.use(logging.requestLoggingMiddleware);
 
 app.all("/api", APIRouter);
 app.all("*", (req, res) => {
-    res.sendFile("../ui/blog-ui/dist/blog-ui/index.html");
+    res.sendFile("/home/gvandehei/projects/RoadtripBlog/ui/blog-ui/dist/blog-ui/index.html");
 });
 
 app.all("/", (req, res) => {
